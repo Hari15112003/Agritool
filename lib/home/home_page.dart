@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:agritool/calculator/choose_crop.dart';
 import 'package:agritool/commodity/commodityPage.dart';
 import 'package:agritool/diseases/scanning_screen.dart';
+import 'package:agritool/lifesaver/lifesaver.dart';
 import 'package:agritool/youtube/example.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,12 @@ class _HomeWidgetState extends State<HomeWidget> {
       ChooseFertilizerCalculator(),
       "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fcalculator.png?alt=media&token=62c5e466-48d2-4e77-8a8e-d3db004a5e07",
       Colors.blue
+    ],
+    [
+      "Life saver",
+      LifeSaver(),
+      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fcalculator.png?alt=media&token=62c5e466-48d2-4e77-8a8e-d3db004a5e07",
+      Colors.purple
     ],
     // ["Avocado", NewsPage(), "lib/example/images/avocado.png", Colors.green],
     // ["Banana", NewsPage(), "lib/example/images/banana.png", Colors.yellow],

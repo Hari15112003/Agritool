@@ -17,12 +17,12 @@ class OtpScreen extends StatefulWidget {
   final String phoneNumber;
 
   const OtpScreen({
-    Key? key,
+    super.key,
     required this.verificationId,
     this.forceResendingToken,
     required this.startTimer,
     required this.phoneNumber,
-  }) : super(key: key);
+  });
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();

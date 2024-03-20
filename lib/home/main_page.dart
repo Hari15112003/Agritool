@@ -105,6 +105,7 @@ class _HomeState extends State<Home> {
               ),
               drawerelements('My Orders', 0),
               drawerelements('My Addresses', 1),
+              drawerelements('Disease Detection', 6),
               const Divider(
                 height: 10,
               ),
@@ -175,6 +176,7 @@ class _HomeState extends State<Home> {
                           ? const BlogPage()
                           : pageNo == 3
                               ? const CropWidget()
+                            
                               : const RentalPage()
             ],
           ),

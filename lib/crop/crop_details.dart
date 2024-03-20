@@ -38,19 +38,22 @@ class _CropDetailsState extends State<CropDetails> {
                 ),
               ],
             ),
-            Container(
-                height: 200,
-                width: double.infinity,
-                decoration: const BoxDecoration(color: Colors.amber),
-                child: Image(
-                  image: CachedNetworkImageProvider(widget.itemImages),
-                  fit: BoxFit.cover,
-                )
-                // ,.C(
-                //   widget.itemImages,
-                //   fit: BoxFit.cover,
-                // )
-                ),
+            Hero(
+              tag: widget.item,
+              child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(color: Colors.amber),
+                  child: Image(
+                    image: CachedNetworkImageProvider(widget.itemImages),
+                    fit: BoxFit.cover,
+                  )
+                  // ,.C(
+                  //   widget.itemImages,
+                  //   fit: BoxFit.cover,
+                  // )
+                  ),
+            ),
             Row(children: [
               Expanded(
                 flex: 3,

@@ -1,7 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print
 
 import 'package:agritool/crop/crop_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -178,6 +179,7 @@ class _CropWidgetState extends State<CropWidget> {
           itemBuilder: (_, int index) {
             return InkWell(
               onTap: () {
+                print(items[index]);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -188,28 +190,31 @@ class _CropWidgetState extends State<CropWidget> {
               },
               child: Column(
                 children: [
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image(
-                        height: 150,
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(
-                          itemImages[index],
+                  Hero(
+                    tag: items[index],
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image(
+                          height: 150,
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(
+                            itemImages[index],
+                          ),
+                        )
+                        //  Image.network(
+                        //   itemImages[index],
+                        //   height: 150,
+                        //   fit: BoxFit.cover,
+                        // )
+                        // child: CachedNetworkImage(
+                        //   imageUrl:
+                        //       'https://cdn.britannica.com/05/75905-050-C7AE0733/Mangoes-tree.jpg',
+                        //   placeholder: (context, url) =>
+                        //       CircularProgressIndicator(),
+                        //   errorWidget: (context, url, error) => Icon(Icons.error),
+                        // ),
                         ),
-                      )
-                      //  Image.network(
-                      //   itemImages[index],
-                      //   height: 150,
-                      //   fit: BoxFit.cover,
-                      // )
-                      // child: CachedNetworkImage(
-                      //   imageUrl:
-                      //       'https://cdn.britannica.com/05/75905-050-C7AE0733/Mangoes-tree.jpg',
-                      //   placeholder: (context, url) =>
-                      //       CircularProgressIndicator(),
-                      //   errorWidget: (context, url, error) => Icon(Icons.error),
-                      // ),
-                      ),
+                  ),
                   Text(items[index])
                 ],
               ),

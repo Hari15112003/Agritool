@@ -353,7 +353,7 @@ class LocalString extends Translations {
               'Practice safety measures during harvesting to avoid injuries, especially when using tools.',
 
 //blackpepper
-          'blackpepper': 'Black Pepper',
+          'blackpepper': 'BlackPepper',
           'blackpepper_introduction': 'Introduction',
           'blackpepper_introduction_content1':
               'Black pepper (Piper nigrum) is a flowering vine cultivated for its fruit, known as peppercorn.',
@@ -471,7 +471,7 @@ class LocalString extends Translations {
 
 //medicinal
 //aloevera
-          'aloevera': 'Aloe Vera',
+          'aloevera': 'AloeVera',
           'aloevera_introduction': 'Introduction',
           'aloevera_introduction_content1':
               'Aloe Vera is a succulent plant known for its medicinal properties.',
@@ -3593,7 +3593,7 @@ class LocalString extends Translations {
           'basil_variety_content3':
               '3. தாய் துளசி: ஒரு தனித்துவமான லைகோரைஸ் சுவையை கொண்டுள்ளது மற்றும் பொதுவாக தென்கிழக்கு ஆசிய உணவுகளில் பயன்படுத்தப்படுகிறது.',
 
-          'துளசி_ உரம்': 'உரம்',
+          'basil_fertilizer': 'உரம்',
           'basil_fertilizer_content1': 'துளசி உரம்',
           'basil_fertilizer_content2':
               'இலை வளர்ச்சியை ஊக்குவிக்க அதிக நைட்ரஜன் உள்ளடக்கம் கொண்ட சீரான உரத்தைப் பயன்படுத்தவும்.',
@@ -5541,7 +5541,7 @@ class LocalString extends Translations {
           'potato_fertilizer_content7':
               'நிலையான உருளைக்கிழங்கு உற்பத்திக்கு மண் வளத்தை பராமரிப்பதற்கான ஒட்டுமொத்த வழிகாட்டுதல்.',
 
-          'potato_disease': 'நோய்கள்',
+          'potato_diseases': 'நோய்கள்',
           'potato_diseases_content1':
               'உருளைக்கிழங்கு செடிகளை பாதிக்கும் பொதுவான நோய்களின் மேலோட்டம்.',
           'potato_diseases_content2':

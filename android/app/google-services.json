@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "592432016756",
+    "project_id": "agritool-591f8",
+    "storage_bucket": "agritool-591f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592432016756:android:ee40b509532760fa5fd021",
+        "android_client_info": {
+          "package_name": "com.example.agritool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcuDNgUJjk9kj85LiBf2T8G4QEWg_924k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
