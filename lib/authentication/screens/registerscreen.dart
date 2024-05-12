@@ -1,11 +1,10 @@
 import 'dart:async';
+import 'package:agritool/provider/auth_provider.dart';
 import 'package:agritool/utils/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-import '../../provider/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({

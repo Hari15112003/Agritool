@@ -1,9 +1,9 @@
-import 'package:agritool/community/blog_page.dart';
+import 'package:agritool/community/community.dart';
+import 'package:agritool/community/make_post.dart';
 import 'package:agritool/crop/crop_practices.dart';
 import 'package:agritool/home/home_page.dart';
 import 'package:agritool/rental/rental_page.dart';
 import 'package:agritool/shop/components/shop_page.dart';
-import 'package:agritool/search/searching.dart';
 import 'package:agritool/settings/setting_page.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,9 @@ class _HomeState extends State<Home> {
                     ? "Shop"
                     : pageNo == 3
                         ? "Crop Practices"
-                        : "Rental"),
+                        : pageNo == 2
+                            ? 'Community'
+                            : "Rental"),
             actions: [
               pageNo == 0 || pageNo == 1
                   ? Row(
@@ -63,7 +65,25 @@ class _HomeState extends State<Home> {
                             )),
                       ],
                     )
-                  : IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                  : pageNo == 2
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MakePost(),
+                              ),
+                            );
+                          },
+                          child: const Row(
+                            children: [
+                              Text('Create post'),
+                              Icon(Icons.add),
+                            ],
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.search))
             ]),
         drawer: Drawer(
           child: ListView(
@@ -140,9 +160,9 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.symmetric(horizontal: 14),
                       child: GestureDetector(
                         onTap: () {
-                          showSearch(
-                              context: context,
-                              delegate: CustomSearchDelegate());
+                          // showSearch(
+                          //     context: context,
+                          //     delegate: CustomSearchDelegate());
                         },
                         child: Container(
                           height: 55,
@@ -173,10 +193,9 @@ class _HomeState extends State<Home> {
                   : pageNo == 1
                       ? const ShopWidget()
                       : pageNo == 2
-                          ? const BlogPage()
+                          ? const CommunityScreen()
                           : pageNo == 3
                               ? const CropWidget()
-                            
                               : const RentalPage()
             ],
           ),

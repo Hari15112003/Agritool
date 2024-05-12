@@ -4,12 +4,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agritool/community/community_model.dart';
 import 'package:agritool/models/firebase/user_model.dart';
 import 'package:agritool/utils/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../authentication/screens/otp_screen.dart';
@@ -24,9 +26,9 @@ class AuthProvider extends ChangeNotifier {
   UserModel? _userModel;
   UserModel get userModel => _userModel!;
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   AuthProvider() {
     checkSign();
@@ -49,13 +51,13 @@ class AuthProvider extends ChangeNotifier {
   void signInWithPhone(
       BuildContext context, String phoneNumber, VoidCallback startTimer) async {
     try {
-      await _firebaseAuth.verifyPhoneNumber(
+      await firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-          await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+          await firebaseAuth.signInWithCredential(phoneAuthCredential);
         },
         verificationFailed: (error) {
-          showSnackBar(context, error.message.toString());
+          showSnackBar(context: context, content: error.message.toString());
           throw Exception(error.message);
         },
         codeSent: (verificationId, forceResendingToken) {
@@ -77,7 +79,7 @@ class AuthProvider extends ChangeNotifier {
         forceResendingToken: null,
       );
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message.toString());
+      showSnackBar(context: context, content: e.message.toString());
     }
   }
 
@@ -85,13 +87,13 @@ class AuthProvider extends ChangeNotifier {
   void resendVerificationCode(String phoneNumber, String verificationId,
       BuildContext context, VoidCallback startTimer) async {
     try {
-      await _firebaseAuth.verifyPhoneNumber(
+      await firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-          await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+          await firebaseAuth.signInWithCredential(phoneAuthCredential);
         },
         verificationFailed: (error) {
-          showSnackBar(context, error.message.toString());
+          showSnackBar(context: context, content: error.message.toString());
           throw Exception(error.message);
         },
         codeSent: (newVerificationId, forceResendingToken) {
@@ -116,7 +118,7 @@ class AuthProvider extends ChangeNotifier {
         forceResendingToken: null,
       );
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message.toString());
+      showSnackBar(context: context, content: e.message.toString());
     }
   }
 
@@ -134,8 +136,7 @@ class AuthProvider extends ChangeNotifier {
       PhoneAuthCredential creds = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: userOtp);
 
-      User? user = (await _firebaseAuth.signInWithCredential(creds)).user;
-
+      User? user = (await firebaseAuth.signInWithCredential(creds)).user;
       if (user != null) {
         // carry our logic
         _uid = user.uid;
@@ -144,7 +145,7 @@ class AuthProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message.toString());
+      showSnackBar(context: context, content: e.message.toString());
       _isLoading = false;
       notifyListeners();
     }
@@ -154,7 +155,7 @@ class AuthProvider extends ChangeNotifier {
 //user database
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection("users").doc(_uid).get();
+        await firebaseFirestore.collection("users").doc(_uid).get();
     if (snapshot.exists) {
       // ignore: avoid_print
       print("USER EXISTS");
@@ -180,13 +181,13 @@ class AuthProvider extends ChangeNotifier {
       // await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
       // userModel.profilePic = value;
       userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
-      userModel.phoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
-      userModel.uid = _firebaseAuth.currentUser!.phoneNumber!;
+      userModel.phoneNumber = firebaseAuth.currentUser!.phoneNumber!;
+      userModel.uid = firebaseAuth.currentUser!.phoneNumber!;
       // });
       _userModel = userModel;
 
       // uploading to database
-      await _firebaseFirestore
+      await firebaseFirestore
           .collection("users")
           .doc(_uid)
           .set(userModel.toMap())
@@ -196,7 +197,7 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       });
     } on FirebaseAuthException catch (e) {
-      showSnackBar(context, e.message.toString());
+      showSnackBar(context: context, content: e.message.toString());
       _isLoading = false;
       notifyListeners();
     }
@@ -217,13 +218,13 @@ class AuthProvider extends ChangeNotifier {
         // await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
         // userModel.profilePic = value;
         userModel.createdAt = DateTime.now().millisecondsSinceEpoch.toString();
-        userModel.phoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
-        userModel.uid = _firebaseAuth.currentUser!.phoneNumber!;
+        userModel.phoneNumber = firebaseAuth.currentUser!.phoneNumber!;
+        userModel.uid = firebaseAuth.currentUser!.phoneNumber!;
         // });
         _userModel = userModel;
 
         // uploading to database
-        await _firebaseFirestore
+        await firebaseFirestore
             .collection("users")
             .doc(_uid)
             .set(userModel.toMap())
@@ -233,7 +234,7 @@ class AuthProvider extends ChangeNotifier {
           notifyListeners();
         });
       } on FirebaseAuthException catch (e) {
-        showSnackBar(context, e.message.toString());
+        showSnackBar(context: context, content: e.message.toString());
         _isLoading = false;
         notifyListeners();
       }
@@ -242,17 +243,22 @@ class AuthProvider extends ChangeNotifier {
 
 //user storage
   Future<String> storeFileToStorage(String ref, File file) async {
-    UploadTask uploadTask = _firebaseStorage.ref().child(ref).putFile(file);
-    TaskSnapshot snapshot = await uploadTask;
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
+    try {
+      UploadTask uploadTask = firebaseStorage.ref().child(ref).putFile(file);
+      TaskSnapshot snapshot = await uploadTask;
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading file: $e');
+      throw e;
+    }
   }
 
 //user data get
   Future getDataFromFirestore() async {
-    await _firebaseFirestore
+    await firebaseFirestore
         .collection("users")
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc(firebaseAuth.currentUser!.uid)
         .get()
         .then((DocumentSnapshot snapshot) {
       _userModel = UserModel(
@@ -292,35 +298,11 @@ class AuthProvider extends ChangeNotifier {
 // user signout
   Future userSignOut() async {
     SharedPreferences s = await SharedPreferences.getInstance();
-    await _firebaseAuth.signOut();
+    await firebaseAuth.signOut();
     _isSignedIn = false;
     notifyListeners();
     s.clear();
   }
-
-  // //** feedback storing in firestore */
-
-  // Future<void> addFeedback(
-  //     String userId, String message, BuildContext context) async {
-  //   try {
-  //     final timestamp = DateTime.now();
-
-  //     await _feedbackCollection.add({
-  //       'userId': userId,
-  //       'message': message,
-  //       'timestamp': timestamp,
-  //     });
-
-  //     // Notify listeners that feedback has been added successfully
-  //     notifyListeners();
-  //   } catch (error) {
-  //     // Handle any errors that occur during the process
-  //     showSnackBar(context, error.toString());
-  //     throw Exception('Failed to add feedback.');
-  //   }
-  // }
-
-  // my account details add
 
   Future<void> updateUserDetails({
     required BuildContext context,
@@ -335,7 +317,7 @@ class AuthProvider extends ChangeNotifier {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     DocumentReference userRef =
-        FirebaseFirestore.instance.collection("users").doc(userId);
+        firebaseFirestore.collection("users").doc(userId);
 
     userRef.update({
       'age': age,
@@ -346,5 +328,63 @@ class AuthProvider extends ChangeNotifier {
       'email': email,
       'name': name
     }).then((value) => Navigator.pop(context));
+  }
+
+  // COMMUNITY
+
+  Future<void> addPostToFirestore(CommunityModel post) async {
+    try {
+      // Prepare the data to be added to Firestore
+      Map<String, dynamic> postData = <String, dynamic>{
+        'userId': post.userId,
+        'name': post.name,
+        'profilePic': post.profileImage,
+        'post': <String, dynamic>{
+          post.date: <String, dynamic>{
+            'content': post.content,
+            'heading': post.heading,
+          }
+        }
+      };
+
+      if (post.imageUrl != null && post.imageUrl!.isNotEmpty) {
+        List<String> imageUrls =
+            await Future.wait(post.imageUrl!.map((file) async {
+          return await storeFileToStorage(
+              '${post.userId}/images/${post.date}_${file.path.split('/').last}',
+              file);
+        }));
+
+        if (imageUrls.isNotEmpty) {
+          postData['post'][post.date]['imageUrl'] =
+              FieldValue.arrayUnion(imageUrls);
+        }
+      }
+      if (post.videoUrl != null && post.videoUrl!.isNotEmpty) {
+        // Upload videos to Firebase Storage and get download URLs
+        List<String> videoUrls =
+            await Future.wait(post.videoUrl!.map((file) async {
+          return await storeFileToStorage(
+              '${post.userId}/videos/${post.date}_${file.path.split('/').last}',
+              file);
+        }));
+        if (videoUrls.isNotEmpty) {
+          postData['post'][post.date]['videoUrl'] =
+              FieldValue.arrayUnion(videoUrls);
+        }
+      }
+      if (post.subheading != null) {
+        postData['post'][post.date]['subheading'] = post.subheading;
+      }
+
+      // Add the post data to Firestore
+      await firebaseFirestore.collection('posts').doc(post.userId).set(
+            postData,
+            SetOptions(merge: true),
+          );
+      print('Post added to Firestore');
+    } catch (e) {
+      print('Error adding post to Firestore: $e');
+    }
   }
 }

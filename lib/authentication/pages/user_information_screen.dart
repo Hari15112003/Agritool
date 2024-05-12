@@ -1,3 +1,4 @@
+
 import 'package:agritool/models/firebase/user_model.dart';
 import 'package:agritool/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
       userModel: userModel,
       // profilePic: image!,
       onSuccess: () {
-        // once data is saved  we store locally
+        // once data iys saved  we store locally
         ap.saveUserDataToSP().then(
           (value) {
             ap.setSignIn().then(

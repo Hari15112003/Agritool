@@ -41,7 +41,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         _weather = weather;
       });
     } catch (e) {
-      showSnackBar(context, e.toString());
+      showSnackBar(context:context ,content:  e.toString());
     }
   }
 

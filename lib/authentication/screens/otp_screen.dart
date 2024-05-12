@@ -175,7 +175,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             if (otpCode != null) {
                               verifyOtp(context, otpCode!);
                             } else {
-                              showSnackBar(context, "Enter 6-Digit code");
+                              showSnackBar(context:  context,content:  "Enter 6-Digit code");
                             }
                           },
                         ),
@@ -209,8 +209,8 @@ class _OtpScreenState extends State<OtpScreen> {
                                   context,
                                   startTimer,
                                 )
-                              : showSnackBar(context,
-                                  'Wait for sometime until the time is over');
+                              : showSnackBar(context:  context,
+                               content:    'Wait for sometime until the time is over');
                           // ignore: avoid_print
                           print("Otp resended");
                         },

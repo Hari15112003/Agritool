@@ -1,8 +1,10 @@
-import 'package:agritool/firebase_options.dart';
+import 'package:agritool/community/community_model.dart';
+import 'package:agritool/firebase/firebase_options.dart';
 import 'package:agritool/language/lang.dart';
 import 'package:agritool/authentication/pages/welcome_page.dart';
 import 'package:agritool/language/langprovider.dart';
 import 'package:agritool/provider/auth_provider.dart';
+import 'package:agritool/provider/internet_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,13 +48,16 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(), // Return an instance of AuthProvider
-        ),
-        ChangeNotifierProvider(
           create: (_) => CartModel(), // Return an instance of AuthProvider
         ),
         ChangeNotifierProvider(create: (_) => themeChangeProvider),
-        ChangeNotifierProvider(create: (_) => languageChangeProvider)
+        ChangeNotifierProvider(create: (_) => languageChangeProvider),
+        ChangeNotifierProvider(
+          create: ((context) => InternetProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((context) => AuthProvider()), 
+        ),
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (context, themeProvider, child) {
