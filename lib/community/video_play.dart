@@ -1,6 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:io';
 
 import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -8,8 +12,8 @@ class VideoPlayerWidget extends StatefulWidget {
   final String type;
   final File videoFile;
 
-  const VideoPlayerWidget({Key? key, required this.videoFile, required this.type})
-      : super(key: key);
+  const VideoPlayerWidget(
+      {super.key, required this.videoFile, required this.type});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -22,11 +26,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
-    if(widget.type=='file'){
-         _controller = VideoPlayerController.file(widget.videoFile);
-    }
-    else{
-         _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoFile.path));
+    if (widget.type == 'file') {
+      _controller = VideoPlayerController.file(widget.videoFile);
+    } else {
+      _controller =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoFile.path));
     }
     _initializeVideoPlayerFuture = _controller.initialize();
   }
@@ -69,9 +73,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              icon: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
+            CustomIconButton(
+              icon: CustomIcon(
+                icon: _controller.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow,
+              ),
               onPressed: () {
                 setState(() {
                   if (_controller.value.isPlaying) {
@@ -82,8 +89,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 });
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.stop),
+            CustomIconButton(
+              icon: const  CustomIcon(icon:  Icons.stop),
               onPressed: () {
                 setState(() {
                   _controller.seekTo(Duration.zero);
@@ -91,8 +98,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 });
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.replay),
+             CustomIconButton(
+              icon: const  CustomIcon(icon:Icons.replay),
               onPressed: () {
                 setState(() {
                   _controller.seekTo(Duration.zero);

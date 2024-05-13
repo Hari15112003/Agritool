@@ -1,9 +1,14 @@
 import 'dart:async';
 
 import 'package:agritool/authentication/pages/user_information_screen.dart';
+import 'package:agritool/const/image_const.dart';
+import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/provider/auth_provider.dart';
-import 'package:agritool/utils/custom_button.dart';
-import 'package:agritool/utils/widget.dart';
+import 'package:agritool/custom/custom_button.dart';
+import 'package:agritool/custom/custom_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -63,9 +68,8 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   void dispose() {
-    // if (_resendTimer != null && _timerActive) {
     stopTimer(); // Stop the timer only if it's active
-    // }
+
     super.dispose();
   }
 
@@ -73,11 +77,7 @@ class _OtpScreenState extends State<OtpScreen> {
     if (_timerActive) {
       stopTimer(); // Stop the timer if it's active
       // Dispose the timer if needed
-    } else {
-      // ignore: avoid_print
-      print("Timer problem");
-    }
-    // Handle the button click event
+    } else {}
   }
 
   @override
@@ -85,7 +85,9 @@ class _OtpScreenState extends State<OtpScreen> {
     final isLoading =
         Provider.of<AuthProvider>(context, listen: true).isLoading;
     final ap = Provider.of<AuthProvider>(context, listen: false);
-
+    CustomSizeData size = CustomSizeData.from(context: context);
+    double height = size.height;
+    double width = size.width;
     return Scaffold(
       body: SafeArea(
         child: isLoading == true
@@ -96,62 +98,57 @@ class _OtpScreenState extends State<OtpScreen> {
               )
             : SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+                  padding: EdgeInsets.symmetric(
+                    vertical: height * 0.04,
+                    horizontal: width * 0.06,
+                  ),
                   child: Column(
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
                         child: GestureDetector(
                           onTap: () => Navigator.of(context).pop(),
-                          child: const Icon(Icons.arrow_back),
+                          child: const CustomIcon(icon: Icons.arrow_back),
                         ),
                       ),
                       Container(
-                        width: 200,
-                        height: 200,
+                        height: height * 0.28,
                         padding: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.purple.shade50,
                         ),
                         child: Image.asset(
-                          "assets/images/image2.png",
+                          ImageConst.otpImage,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "Verification",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      SizedBox(height: height * 0.03),
+                      CustomText(
+                        text: "Verification",
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.largetext,
                       ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Enter the OTP send to your phone number",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black38,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+                      SizedBox(height: height * 0.02),
+                      const CustomText(
+                        text: "Enter the OTP send to your phone number",
+                        color: Colors.black38,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: height * 0.03),
                       Pinput(
                         length: 6,
                         showCursor: true,
                         defaultPinTheme: PinTheme(
-                          width: 60,
-                          height: 60,
+                          width: width * 0.18,
+                          height: height * 0.07,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
                               color: Colors.purple.shade200,
                             ),
                           ),
-                          textStyle: const TextStyle(
-                            fontSize: 20,
+                          textStyle: TextStyle(
+                            fontSize: size.mediumtext,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -161,45 +158,45 @@ class _OtpScreenState extends State<OtpScreen> {
                           });
                         },
                       ),
-                      const SizedBox(height: 25),
-                      Text("Seconds Remaining $_timerDuration"),
-                      const SizedBox(
-                        height: 6,
+                      SizedBox(height: height * 0.05),
+                      CustomText(
+                        text: "Seconds Remaining $_timerDuration",
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
+                        height: height * 0.02,
+                      ),
+                      SizedBox(
+                        width: width,
+                        height: height * 0.05,
                         child: CustomButton(
                           text: "Verify",
                           onPressed: () {
                             if (otpCode != null) {
                               verifyOtp(context, otpCode!);
                             } else {
-                              showSnackBar(context:  context,content:  "Enter 6-Digit code");
+                              showSnackBar(
+                                  context: context,
+                                  content: "Enter 6-Digit code");
                             }
                           },
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: height * 0.02,
                       ),
-                      const Text(
-                        "Didn't receive any code?",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black38,
-                        ),
+                      const CustomText(
+                        text: "Didn't receive any code?",
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black38,
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(
+                        height: height * 0.01,
+                      ),
                       GestureDetector(
-                        child: const Text(
-                          "Resend New Code",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple,
-                          ),
+                        child: const CustomText(
+                          text: "Resend New Code",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple,
                         ),
                         onTap: () {
                           _timerDuration == 0
@@ -209,10 +206,10 @@ class _OtpScreenState extends State<OtpScreen> {
                                   context,
                                   startTimer,
                                 )
-                              : showSnackBar(context:  context,
-                               content:    'Wait for sometime until the time is over');
-                          // ignore: avoid_print
-                          print("Otp resended");
+                              : showSnackBar(
+                                  context: context,
+                                  content:
+                                      'Wait for sometime until the time is over');
                         },
                       ),
                     ],
@@ -239,23 +236,13 @@ class _OtpScreenState extends State<OtpScreen> {
               // user exists in our app
               ap.getDataFromFirestore().then(
                     (value) => ap.saveUserDataToSP().then(
-                          (value) => ap.setSignIn().then(
-                                (value) => Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Home(),
-                                    ),
-                                    (route) => false),
-                              ),
+                          (value) => ap.setSignIn().then((value) =>
+                              context.pushAndRemoveUntil(const Home())),
                         ),
                   );
             } else {
               // new user
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const UserInformationScreen()),
-                  (route) => false);
+              context.pushAndRemoveUntil(const UserInformationScreen());
             }
           },
         );

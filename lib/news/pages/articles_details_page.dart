@@ -1,5 +1,6 @@
 //Now let's create the article details page
 
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 
 import '../model/article_model.dart';
@@ -13,7 +14,7 @@ class ArticlePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(article.title),
+        title: CustomText(text: article.title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -43,29 +44,23 @@ class ArticlePage extends StatelessWidget {
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(30.0),
               ),
-              child: Text(
-                article.source.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+              child: CustomText(
+                text: article.source.name,
+                color: Colors.white,
               ),
             ),
             const SizedBox(
               height: 8.0,
             ),
-            Text(
-              article.description,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
+            CustomText(
+              text: article.description,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
             ),
-            Text(
-              article.content,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
+            CustomText(
+              text: article.content,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
             )
           ],
         ),

@@ -1,3 +1,7 @@
+import 'package:agritool/custom/custom_back_button.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/theme/provider/darktheme_provider.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +16,24 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  TextEditingController? nameController = TextEditingController(text: 'Name');
+  TextEditingController nameController = TextEditingController(text: 'Name');
   TextEditingController emailController = TextEditingController(text: 'Email');
   TextEditingController stateController = TextEditingController(text: "State");
   TextEditingController addressContoller =
       TextEditingController(text: 'Address');
   TextEditingController districtController =
       TextEditingController(text: "District");
+
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    stateController.dispose();
+    addressContoller.dispose();
+    districtController.dispose();
+  }
+
   String countryValue = "";
   String? stateValue = "";
   String? cityValue = "";
@@ -43,7 +58,7 @@ class _SettingPageState extends State<SettingPage> {
         context: context,
         builder: (builder) {
           return AlertDialog(
-            title: Text("chooselang".tr),
+            title: CustomText(text: "chooselang".tr),
             content: SizedBox(
               width: double.maxFinite,
               child: ListView.separated(
@@ -52,13 +67,16 @@ class _SettingPageState extends State<SettingPage> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
-                        onTap: () {
-                          // setState(() {
-                          //   languageSelected = locale[index]['name'];
-                          // });
-                          updatelanguage(locale[index]['locale']);
-                        },
-                        child: Text(locale[index]['name'])),
+                      onTap: () {
+                        // setState(() {
+                        //   languageSelected = locale[index]['name'];
+                        // });
+                        updatelanguage(locale[index]['locale']);
+                      },
+                      child: CustomText(
+                        text: locale[index]['name'],
+                      ),
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -83,23 +101,8 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back))),
-                const Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: Text("My Account"),
-                    )),
-              ],
+            const CustomBackButton(
+              text: 'My Account',
             ),
             Align(
                 alignment: Alignment.centerRight,
@@ -109,13 +112,13 @@ class _SettingPageState extends State<SettingPage> {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 141, 136, 122),
                           shape: BoxShape.circle),
-                      child: IconButton(
+                      child: CustomIconButton(
                           onPressed: () {
                             themeChange.setDarkTheme =
                                 !themeChange.getDarkTheme;
                           },
-                          icon: Icon(
-                            themeChange.getDarkTheme == true
+                          icon: CustomIcon(
+                            icon: themeChange.getDarkTheme == true
                                 ? Icons.light_mode
                                 : Icons.dark_mode,
                             color: Colors.white,
@@ -137,8 +140,8 @@ class _SettingPageState extends State<SettingPage> {
                             const CircleAvatar(
                           backgroundColor: Color.fromARGB(95, 100, 68, 68),
                           radius: 50,
-                          child: Icon(
-                            Icons.account_circle,
+                          child: CustomIcon(
+                            icon: Icons.account_circle,
                             size: 50,
                             color: Colors.white,
                           ),
@@ -160,7 +163,9 @@ class _SettingPageState extends State<SettingPage> {
                                     const Color.fromARGB(255, 244, 197, 194)),
                             child: const Padding(
                               padding: EdgeInsets.all(4.0),
-                              child: Icon(Icons.photo_camera),
+                              child: CustomIcon(
+                                icon: Icons.photo_camera,
+                              ),
                             )))
                   ],
                 ),
@@ -180,7 +185,7 @@ class _SettingPageState extends State<SettingPage> {
                 builddialog(context, "");
               },
               style: OutlinedButton.styleFrom(shape: const LinearBorder()),
-              child: const Text("Choose Language"),
+              child: const CustomText(text: "Choose Language"),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -255,7 +260,7 @@ class _SettingPageState extends State<SettingPage> {
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Row(
         children: [
-          Icon(icon),
+          CustomIcon(icon: icon),
           const SizedBox(
             height: 30,
             child: VerticalDivider(
@@ -264,11 +269,14 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ),
           SizedBox(
-              width: 250,
-              child: TextField(
-                controller: controller,
-                decoration: const InputDecoration(border: InputBorder.none),
-              ))
+            width: 250,
+            child: TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -277,9 +285,10 @@ class _SettingPageState extends State<SettingPage> {
   Widget test(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      child: CustomText(
+        text: text,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

@@ -1,9 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:agritool/custom/custom_back_button.dart';
+import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Define a custom Form widget.
 class MyCustomForm extends StatefulWidget {
   final String type;
 
@@ -12,14 +15,9 @@ class MyCustomForm extends StatefulWidget {
   _MyCustomFormState createState() => _MyCustomFormState();
 }
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
 class _MyCustomFormState extends State<MyCustomForm> {
-  // ignore: non_constant_identifier_names
-  bool show_value = false;
+  bool showValue = false;
 
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
   final myController = TextEditingController();
 
   String? val;
@@ -35,8 +33,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    CustomSizeData size = CustomSizeData.from(context: context);
+    double height = size.height;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,30 +43,19 @@ class _MyCustomFormState extends State<MyCustomForm> {
             SizedBox(
               height: height * 0.06,
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: width * 0.07,
-                  )),
-            ),
-            Text(
-              "fertilizercalc".tr,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            const CustomBackButton(text: 'Fertilizer'),
+            CustomText(
+                text: "fertilizercalc".tr,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
             SizedBox(
               height: height * 0.04,
             ),
-            Text(
-              'enterplotsize'.tr,
-              textAlign: TextAlign.left,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.green),
-            ),
+            CustomText(
+                text: 'enterplotsize'.tr,
+                textAlign: TextAlign.left,
+                fontWeight: FontWeight.bold,
+                color: Colors.green),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: TextFormField(
@@ -84,33 +71,32 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 keyboardType: TextInputType.number,
               ),
             ),
-            Text(
-              'acres'.tr,
-              textAlign: TextAlign.right,
-              style: const TextStyle(color: Colors.green),
-            ),
+            CustomText(
+                text: 'acres'.tr,
+                textAlign: TextAlign.right,
+                color: Colors.green),
             const SizedBox(
               height: 10,
             ),
             Column(
               children: <Widget>[
-                if (show_value)
+                if (showValue)
                   Column(
                     children: <Widget>[
-                      Text(
-                        'We advise you not to use Chemicals for the next 45 days...'
-                            .tr,
-                        style: const TextStyle(fontSize: 16),
-                      ),
+                      CustomText(
+                          text:
+                              'We advise you not to use Chemicals for the next 45 days...'
+                                  .tr,
+                          fontSize: 16),
                     ],
                   ),
                 CheckboxListTile(
-                  title: Text("Natural Enemies in your Field".tr),
+                  title: CustomText(text: "Natural Enemies in your Field".tr),
                   controlAffinity: ListTileControlAffinity.leading,
-                  value: show_value,
+                  value: showValue,
                   onChanged: (bool? showvalue) {
                     setState(() {
-                      show_value = showvalue!;
+                      showValue = showvalue!;
                     });
                   },
                 ),
@@ -132,16 +118,17 @@ class _MyCustomFormState extends State<MyCustomForm> {
                                   TextButton(
                                     child: Text("OK".tr),
                                     onPressed: () {
-                                      Navigator.pop(context, 'Cancel'.tr);
+                                      // Navigator.pop(context, 'Cancel'.tr);
+                                      context.pop('Cancel'.tr);
                                     },
                                   ),
                                 ],
-                                title: Text("Error".tr),
+                                title: CustomText(text: "Error".tr),
                               );
                             });
                       }
                     },
-                    child: const Text("Calculate")),
+                    child: const CustomText(text: "Calculate")),
                 const SizedBox(
                   height: 10,
                 ),
@@ -173,12 +160,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
-        ),
-        Text(value),
+        CustomText(
+            text: title, fontWeight: FontWeight.bold, color: Colors.green),
+        CustomText(text: value),
       ],
     );
   }
@@ -189,7 +173,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
     double acre = double.parse(myController.text);
     double dap, mop, urea = 0.0;
     String type = widget.type.toString().trim().toLowerCase();
-    // TODO :implement function here
 
     if (type == 'apple') {
       dap = 25;

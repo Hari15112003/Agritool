@@ -1,17 +1,17 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:agritool/community/community_model.dart';
+import 'package:agritool/custom/custom_navigation.dart';
 import 'package:agritool/models/firebase/user_model.dart';
-import 'package:agritool/utils/widget.dart';
+import 'package:agritool/custom/custom_snackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../authentication/screens/otp_screen.dart';
@@ -62,15 +62,12 @@ class AuthProvider extends ChangeNotifier {
         },
         codeSent: (verificationId, forceResendingToken) {
           startTimer();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OtpScreen(
-                verificationId: verificationId,
-                forceResendingToken: forceResendingToken,
-                startTimer: startTimer,
-                phoneNumber: phoneNumber,
-              ),
+          context.push(
+            OtpScreen(
+              verificationId: verificationId,
+              forceResendingToken: forceResendingToken,
+              startTimer: startTimer,
+              phoneNumber: phoneNumber,
             ),
           );
         },
@@ -101,15 +98,12 @@ class AuthProvider extends ChangeNotifier {
           verificationId = newVerificationId;
 
           startTimer();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OtpScreen(
-                verificationId: verificationId,
-                forceResendingToken: forceResendingToken,
-                startTimer: startTimer,
-                phoneNumber: phoneNumber,
-              ),
+          context.push(
+            OtpScreen(
+              verificationId: verificationId,
+              forceResendingToken: forceResendingToken,
+              startTimer: startTimer,
+              phoneNumber: phoneNumber,
             ),
           );
         },
@@ -157,11 +151,9 @@ class AuthProvider extends ChangeNotifier {
     DocumentSnapshot snapshot =
         await firebaseFirestore.collection("users").doc(_uid).get();
     if (snapshot.exists) {
-      // ignore: avoid_print
       print("USER EXISTS");
       return true;
     } else {
-      // ignore: avoid_print
       print("NEW USER");
       return false;
     }
@@ -250,7 +242,7 @@ class AuthProvider extends ChangeNotifier {
       return downloadUrl;
     } catch (e) {
       print('Error uploading file: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -327,7 +319,7 @@ class AuthProvider extends ChangeNotifier {
       'address': address,
       'email': email,
       'name': name
-    }).then((value) => Navigator.pop(context));
+    }).then((value) => context.pop());
   }
 
   // COMMUNITY

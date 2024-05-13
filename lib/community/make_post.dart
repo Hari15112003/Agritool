@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:agritool/community/community_model.dart';
 import 'package:agritool/community/video_play.dart';
 import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_navigation.dart';
 import 'package:agritool/custom/custom_text.dart';
+import 'package:agritool/custom/custom_text_field.dart';
 import 'package:agritool/provider/auth_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
 
 class MakePost extends StatefulWidget {
   const MakePost({super.key});
@@ -67,26 +67,26 @@ class _MakePostState extends State<MakePost> {
                       ),
                     ),
                   ),
-                  IconButton(
+                  CustomIconButton(
                     onPressed: () {},
-                    icon: const Icon(
-                      Icons.link,
+                    icon: const CustomIcon(
+                      icon: Icons.link,
                     ),
                   ),
-                  IconButton(
+                  CustomIconButton(
                     onPressed: () {
                       pickImage(ImageSource.gallery);
                     },
-                    icon: const Icon(
-                      Icons.browse_gallery_rounded,
+                    icon: const CustomIcon(
+                      icon: Icons.browse_gallery_rounded,
                     ),
                   ),
-                  IconButton(
+                  CustomIconButton(
                     onPressed: () {
                       pickImage(ImageSource.camera);
                     },
-                    icon: const Icon(
-                      Icons.camera_alt_rounded,
+                    icon: const CustomIcon(
+                      icon: Icons.camera_alt_rounded,
                     ),
                   )
                 ],
@@ -103,12 +103,12 @@ class _MakePostState extends State<MakePost> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  IconButton(
+                  CustomIconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop();
                       },
-                      icon: const Icon(Icons.arrow_back)),
-                  const Text("Create Post"),
+                      icon: const CustomIcon(icon: Icons.arrow_back)),
+                  const CustomText(text: "Create Post"),
                 ],
               ),
               CustomTextField(
@@ -133,12 +133,13 @@ class _MakePostState extends State<MakePost> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    IconButton(
+                                    CustomIconButton(
                                       onPressed: () {
                                         imageFile.removeAt(index);
                                         setState(() {});
                                       },
-                                      icon: const Icon(Icons.cancel),
+                                      icon:
+                                          const CustomIcon(icon: Icons.cancel),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -175,16 +176,16 @@ class _MakePostState extends State<MakePost> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                IconButton(
+                                CustomIconButton(
                                   onPressed: () {
                                     videoFile.removeAt(index);
                                     setState(() {});
                                   },
-                                  icon: const Icon(Icons.cancel),
+                                  icon: const CustomIcon(icon: Icons.cancel),
                                 ),
                                 Expanded(
                                     child: VideoPlayerWidget(
-                                      type: 'file',
+                                        type: 'file',
                                         videoFile: videoFile[index])),
                               ],
                             ),
@@ -197,10 +198,6 @@ class _MakePostState extends State<MakePost> {
                     ),
               ElevatedButton(
                   onPressed: () {
-                    print(
-                      videoFile,
-                    );
-                    print(imageFile);
                     CommunityModel post = CommunityModel(
                         userId: ref.firebaseAuth.currentUser!.uid,
                         date: DateTime.now().toString(),
@@ -211,11 +208,11 @@ class _MakePostState extends State<MakePost> {
                         imageUrl: imageFile,
                         videoUrl: videoFile,
                         content: contentController.text.trim());
-                    ref
-                        .addPostToFirestore(post)
-                        .then((value) => Navigator.pop(context));
+                    ref.addPostToFirestore(post).then(
+                          (value) => context.pop(),
+                        );
                   },
-                  child: const Text('Post')),
+                  child: const CustomText(text: 'Post')),
               const SizedBox(
                 height: 300,
               )

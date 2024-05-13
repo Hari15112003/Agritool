@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 
 import '../model/article_model.dart';
@@ -8,12 +10,9 @@ import '../pages/articles_details_page.dart';
 Widget customListTile(Article article, BuildContext context) {
   return InkWell(
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ArticlePage(
-            article: article,
-          ),
+      context.push(
+        ArticlePage(
+          article: article,
         ),
       );
     },
@@ -55,22 +54,18 @@ Widget customListTile(Article article, BuildContext context) {
               color: Colors.red,
               borderRadius: BorderRadius.circular(30.0),
             ),
-            child: Text(
-              article.source.name,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
+            child: CustomText(
+              text: article.source.name,
+              color: Colors.white,
             ),
           ),
           const SizedBox(
             height: 8.0,
           ),
-          Text(
-            article.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16.0,
-            ),
+          CustomText(
+            text: article.title,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
           )
         ],
       ),

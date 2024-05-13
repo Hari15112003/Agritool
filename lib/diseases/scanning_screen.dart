@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
+import 'package:agritool/const/image_const.dart';
 import 'package:agritool/diseases/detection_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -24,7 +25,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
     Future.delayed(const Duration(seconds: 2), () {
       print(widget.results);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-        // return 
+        // return
         return DetectionDeteils(image: widget.image, results: widget.results);
       }));
     });
@@ -34,9 +35,10 @@ class _ScanningScreenState extends State<ScanningScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         body: Center(
-      child: LottieBuilder.asset('assets/json/scan.json'),
+      child: LottieBuilder.asset(
+        ImageConst.scannerLottie,
+      ),
     ));
   }
 }

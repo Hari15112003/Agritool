@@ -1,6 +1,11 @@
 // ignore_for_file: file_names, avoid_print,, unused_import
 
 import 'package:agritool/commodity/apiCall.dart';
+import 'package:agritool/custom/custom_back_button.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -27,25 +32,7 @@ class _CommodityPageState extends State<CommodityPage> {
         child: Scaffold(
       body: Column(
         children: [
-         
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back)),
-                const Text(
-                  "Commodity Price",
-                  style: TextStyle(fontSize: 18),
-                ),
-                const Spacer()
-              ],
-            ),
-          ),
+          const CustomBackButton(text: 'Commodity Price'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -85,11 +72,10 @@ class _CommodityPageState extends State<CommodityPage> {
                     ]
                         .map((name) => DropdownMenuItem(
                               value: name,
-                              child: Text(
-                                name,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 14),
-                              ),
+                              child: CustomText(
+                                  text: name,
+                                  color: Colors.black,
+                                  fontSize: 14),
                             ))
                         .toList(),
                     onChanged: (value) {
@@ -99,10 +85,10 @@ class _CommodityPageState extends State<CommodityPage> {
                       print(stateValue);
                     },
                     isExpanded: true,
-                    hint: const Text(
-                      "Choose State",
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    ),
+                    hint: const CustomText(
+                        text: "Choose State",
+                        color: Colors.black,
+                        fontSize: 12),
                   ),
                 ),
               ),
@@ -130,7 +116,7 @@ class _CommodityPageState extends State<CommodityPage> {
               });
               print(detials);
             },
-            child: const Text("Search"),
+            child: const CustomText(text: "Search"),
           ),
           Expanded(
               child: ListView.builder(
@@ -151,18 +137,16 @@ class _CommodityPageState extends State<CommodityPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    detials[index]['commodity'].toString(),
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "District: ${detials[index]['district']}",
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  CustomText(
+                                      text: detials[index]['commodity']
+                                          .toString(),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                  CustomText(
+                                      text:
+                                          "District: ${detials[index]['district']}",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ],
                               ),
                               const SizedBox(
@@ -195,11 +179,8 @@ class _CommodityPageState extends State<CommodityPage> {
   Widget columnHelper({required String title, required String value}) {
     return Column(
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-        ),
-        Text(value),
+        CustomText(text: title, fontSize: 14, fontWeight: FontWeight.w600),
+        CustomText(text: value),
       ],
     );
   }

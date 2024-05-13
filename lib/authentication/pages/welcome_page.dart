@@ -1,6 +1,9 @@
-
+import 'package:agritool/const/image_const.dart';
+import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/provider/auth_provider.dart';
-import 'package:agritool/utils/custom_button.dart';
+import 'package:agritool/custom/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,50 +20,39 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final ap =
-        Provider.of<AuthProvider>(context, listen: false); //callinf provider
-    var height = MediaQuery.of(context).size.height;
+    final ref = Provider.of<AuthProvider>(context, listen: false);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
+    CustomSizeData size = CustomSizeData.from(context: context);
+    double height = size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "assets/images/image1.png",
+                ImageConst.welcomeImage,
                 height: height * 0.38,
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: height * 0.03,
               ),
-              const Text(
-                "Let's get started",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+              CustomText(
+                text: "Let's get started",
+                fontSize: size.largetext,
+                fontWeight: FontWeight.bold,
               ),
               SizedBox(
                 height: height * 0.026,
               ),
-              const Text(
-                "Never a better time than now to start ",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black38,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 10,
+              CustomText(
+                text: "Never a better time than now to start ",
+                fontSize: size.mediumtext,
               ),
               SizedBox(
-                width: double.infinity,
+                height: height * 0.05,
+              ),
+              SizedBox(
                 child: CustomButton(
                   text: 'GetStarted',
                   onPressed: () async {
@@ -68,22 +60,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     // else register
                     //when true fetch the shared preference data
 
-                    if (ap.isSignedIn == true) {
-                      await ap.getDataFromSP().whenComplete(
-                            () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Home(),
-                              ),
-                            ),
-                          );
+                    if (ref.isSignedIn == true) {
+                      await ref.getDataFromSP().whenComplete(
+                          () => context.pushReplacement(const Home()));
                     } else {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterScreen(),
-                        ),
-                      );
+                      context.pushReplacement(const RegisterScreen());
                     }
                   },
                 ),

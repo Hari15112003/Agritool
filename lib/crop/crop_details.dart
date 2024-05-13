@@ -1,7 +1,12 @@
 import 'package:agritool/crop/description.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../custom/custom_icon_button.dart';
 
 class CropDetails extends StatefulWidget {
   final String item;
@@ -24,17 +29,17 @@ class _CropDetailsState extends State<CropDetails> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
+                CustomIconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      context.pop();
                     },
-                    icon: const Icon(Icons.arrow_back)),
-                Text(
-                  widget.item.toUpperCase(),
+                    icon: const CustomIcon(icon: Icons.arrow_back)),
+                CustomText(
+                  text: widget.item.toUpperCase(),
                 ),
-                IconButton(
+                CustomIconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.search),
+                  icon: const CustomIcon(icon: Icons.search),
                 ),
               ],
             ),
@@ -47,31 +52,33 @@ class _CropDetailsState extends State<CropDetails> {
                   child: Image(
                     image: CachedNetworkImageProvider(widget.itemImages),
                     fit: BoxFit.cover,
-                  )
-                  // ,.C(
-                  //   widget.itemImages,
-                  //   fit: BoxFit.cover,
-                  // )
-                  ),
+                  )),
             ),
             Row(children: [
               Expanded(
                 flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(widget.item),
+                  child: CustomText(text: widget.item),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      favorite == true ? favorite = false : favorite = true;
-                    });
-                  },
-                  icon: Icon(favorite == true
-                      ? Icons.favorite
-                      : Icons.favorite_border)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.share))
+              CustomIconButton(
+                onPressed: () {
+                  setState(() {
+                    favorite == true ? favorite = false : favorite = true;
+                  });
+                },
+                icon: CustomIcon(
+                    icon: favorite == true
+                        ? Icons.favorite
+                        : Icons.favorite_border),
+              ),
+              CustomIconButton(
+                onPressed: () {},
+                icon: const CustomIcon(
+                  icon: Icons.share,
+                ),
+              )
             ]),
             listTileItems('1.${'introduction'.tr}', 0),
             divider(),
@@ -85,7 +92,6 @@ class _CropDetailsState extends State<CropDetails> {
             divider(),
             listTileItems('6.${'irrigation'.tr}', 5),
             divider(),
-            // listTileItems('7.${''.tr}', 7),
           ],
         ),
       ),
@@ -102,16 +108,13 @@ class _CropDetailsState extends State<CropDetails> {
   Widget listTileItems(String text, int number) {
     return ListTile(
       trailing: const Icon(Icons.arrow_forward_ios_rounded),
-      title: Text('${widget.item.toLowerCase()}_${text.substring(2)}'.tr),
+      title: CustomText(text:  '${widget.item.toLowerCase()}_${text.substring(2)}'.tr),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Description(
-              step: text,
-              step_index: number,
-              crop_item: widget.item.toLowerCase(),
-            ),
+        context.push(
+          Description(
+            step: text,
+            step_index: number,
+            crop_item: widget.item.toLowerCase(),
           ),
         );
       },

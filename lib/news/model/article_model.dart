@@ -1,6 +1,3 @@
-//Now let's create the article model
-// for that we just need to copy the property from the json structure
-// and make a dart object
 
 import 'source_model.dart';
 
@@ -13,8 +10,6 @@ class Article {
   final String? urlToImage;
   final String publishedAt;
   final String content;
-
-  //Now let's create the constructor
   Article(
       {required this.source,
       required this.author,

@@ -1,11 +1,11 @@
-
+import 'package:agritool/custom/custom_data.dart';
 import 'package:agritool/models/firebase/user_model.dart';
 import 'package:agritool/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../home/main_page.dart';
-import '../../utils/custom_button.dart';
+import '../../custom/custom_button.dart';
 
 class UserInformationScreen extends StatefulWidget {
   const UserInformationScreen({super.key});
@@ -21,11 +21,24 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
   final stateController = TextEditingController();
   final districtController = TextEditingController();
   final pincodeController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    ageController.dispose();
+    stateController.dispose();
+    districtController.dispose();
+    pincodeController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isLoading =
+  
         Provider.of<AuthProvider>(context, listen: true).isLoading;
+           CustomSizeData size = CustomSizeData.from(context: context);
+    double width = size.width;
     return Scaffold(
       body: SafeArea(
         child: isLoading == true
@@ -41,7 +54,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                   child: Column(
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: width,
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 15),
                         margin: const EdgeInsets.only(top: 20),
@@ -76,7 +89,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
                       ),
                       SizedBox(
                         height: 50,
-                        width: MediaQuery.of(context).size.width * 0.90,
+                        width: width * 0.90,
                         child: CustomButton(
                           text: 'Continue',
                           onPressed: () {

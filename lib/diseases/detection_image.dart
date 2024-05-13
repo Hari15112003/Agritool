@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'dart:io';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/language/langprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
 // ignore: must_be_immutable
 class DetectionDeteils extends StatefulWidget {
   DetectionDeteils({super.key, required this.image, required this.results});
@@ -31,15 +34,13 @@ class _DetectionDeteilsState extends State<DetectionDeteils> {
                   ? const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Warning',
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          Icons.error,
+                        CustomText(
+                            text: 'Warning',
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        CustomIcon(
+                          icon: Icons.error,
                           color: Colors.red,
                           size: 30,
                         ),
@@ -48,13 +49,11 @@ class _DetectionDeteilsState extends State<DetectionDeteils> {
                         ),
                       ],
                     )
-                  : Text(
-                      'identifydisease'.tr,
-                      style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  : CustomText(
+                      text: 'identifydisease'.tr,
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 50,
@@ -74,8 +73,8 @@ class _DetectionDeteilsState extends State<DetectionDeteils> {
               height: 50,
             ),
             Center(
-              child: Text(
-                widget.results.isEmpty
+              child:   CustomText(
+              text:   widget.results.isEmpty
                     ? 'cautionerror'.tr
                     : widget.results[0]['label']
                         .toString()
@@ -83,10 +82,10 @@ class _DetectionDeteilsState extends State<DetectionDeteils> {
                         .trim()
                         .toString()
                         .tr,
-                style: const TextStyle(
+         
                     fontSize: 30,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold
               ),
             ),
             const SizedBox(
@@ -96,36 +95,36 @@ class _DetectionDeteilsState extends State<DetectionDeteils> {
               padding: const EdgeInsets.fromLTRB(18.0, 8, 18, 8),
               child: Center(
                 child: widget.results.isEmpty
-                    ? const Text(
-                        'Description : This is not a leaf object',
-                        style: TextStyle(
+                    ? const   CustomText(
+                       text:  'Description : This is not a leaf object',
+                      
                             fontSize: 15,
                             color: Colors.red,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold
                       )
-                    : Text(
-                        "Possible Causes".tr +
+                    :   CustomText(
+                      text:   "Possible Causes".tr +
                             " :" +
                             '${Diseases(widget.results[0]['label'].toString(), languageChange)[0]}',
-                        style: const TextStyle(
+                      
                             fontSize: 15,
                             color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold
                       ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18.0, 8, 18, 8),
-              child: Text(
-                widget.results.isEmpty
+              child:   CustomText(
+               text:  widget.results.isEmpty
                     ? ''
                     : "Possible Solution".tr +
                         " :" +
                         '${Diseases(widget.results[0]['label'].toString(), languageChange)[1]}',
-                style: const TextStyle(
+          
                     fontSize: 15,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold
               ),
             )
           ],

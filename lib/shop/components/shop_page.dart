@@ -1,7 +1,8 @@
+import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/shop/components/grocery_item_tile.dart';
 import 'package:agritool/shop/model/cart_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ShopWidget extends StatefulWidget {
@@ -14,10 +15,12 @@ class ShopWidget extends StatefulWidget {
 class _ShopWidgetState extends State<ShopWidget> {
   @override
   Widget build(BuildContext context) {
+    CustomSizeData size = CustomSizeData.from(context: context);
+    double height = size.height;
     return SingleChildScrollView(
       primary: true,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height,
+        height: height,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,14 +28,13 @@ class _ShopWidgetState extends State<ShopWidget> {
             const SizedBox(height: 48),
 
             // Let's order fresh items for you
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                "Let's order fresh items for you",
-                style: GoogleFonts.notoSerif(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: CustomText(
+                text: "Let's order fresh items for you",
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.visible,
               ),
             ),
 
@@ -45,13 +47,11 @@ class _ShopWidgetState extends State<ShopWidget> {
 
             const SizedBox(height: 24),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                "Fresh Items",
-                style: GoogleFonts.notoSerif(
-                  fontSize: 18,
-                ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: CustomText(
+                text: "Fresh Items",
+                fontSize: 18,
               ),
             ),
 

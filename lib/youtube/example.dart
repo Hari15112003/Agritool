@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -119,19 +122,15 @@ class _MyHomePageState extends State<MyHomePage> {
         topActions: <Widget>[
           const SizedBox(width: 8.0),
           Expanded(
-            child: Text(
-              _controller.metadata.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+            child: CustomText(
+              text: _controller.metadata.title,
+              color: Colors.white,
+              fontSize: 18.0,
             ),
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.settings,
+          CustomIconButton(
+            icon: const CustomIcon(
+              icon: Icons.settings,
               color: Colors.white,
               size: 25.0,
             ),
@@ -158,13 +157,11 @@ class _MyHomePageState extends State<MyHomePage> {
             //   fit: BoxFit.fitWidth,
             // ),
           ),
-          title: const Text(
-            'Youtube Player Flutter',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: const CustomText(
+              text: 'Youtube Player Flutter', color: Colors.white),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.video_library),
+            CustomIconButton(
+              icon: const CustomIcon(icon: Icons.video_library),
               onPressed: () {},
               //  Navigator.push(
               //   context,
@@ -234,18 +231,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.skip_previous),
+                      CustomIconButton(
+                        icon: const CustomIcon(icon: Icons.skip_previous),
                         onPressed: _isPlayerReady
                             ? () => _controller.load(_ids[
                                 (_ids.indexOf(_controller.metadata.videoId) -
                                         1) %
                                     _ids.length])
-                            : null,
+                            : () {},
                       ),
-                      IconButton(
-                        icon: Icon(
-                          _controller.value.isPlaying
+                      CustomIconButton(
+                        icon: CustomIcon(
+                          icon: _controller.value.isPlaying
                               ? Icons.pause
                               : Icons.play_arrow,
                         ),
@@ -256,10 +253,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     : _controller.play();
                                 setState(() {});
                               }
-                            : null,
+                            : () {},
                       ),
-                      IconButton(
-                        icon: Icon(_muted ? Icons.volume_off : Icons.volume_up),
+                      CustomIconButton(
+                        icon: CustomIcon(
+                            icon: _muted ? Icons.volume_off : Icons.volume_up),
                         onPressed: _isPlayerReady
                             ? () {
                                 _muted
@@ -269,30 +267,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _muted = !_muted;
                                 });
                               }
-                            : null,
+                            : () {},
                       ),
                       FullScreenButton(
                         controller: _controller,
                         color: Colors.blueAccent,
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.skip_next),
+                      CustomIconButton(
+                        icon: const CustomIcon(icon: Icons.skip_next),
                         onPressed: _isPlayerReady
                             ? () => _controller.load(_ids[
                                 (_ids.indexOf(_controller.metadata.videoId) +
                                         1) %
                                     _ids.length])
-                            : null,
+                            : () {},
                       ),
                     ],
                   ),
                   _space,
                   Row(
                     children: <Widget>[
-                      const Text(
-                        "Volume",
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
+                      const CustomText(
+                          text: "Volume", fontWeight: FontWeight.w300),
                       Expanded(
                         child: Slider(
                           inactiveColor: Colors.transparent,
@@ -321,12 +317,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: _getStateColor(_playerState),
                     ),
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _playerState.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
+                    child: CustomText(
+                      text: _playerState.toString(),
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -406,13 +400,11 @@ class _MyHomePageState extends State<MyHomePage> {
         disabledTextColor: Colors.black,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 14.0),
-          child: Text(
-            action,
-            style: const TextStyle(
-              fontSize: 18.0,
-              color: Colors.white,
-              fontWeight: FontWeight.w300,
-            ),
+          child: CustomText(
+            text: action,
+            fontSize: 18.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
             textAlign: TextAlign.center,
           ),
         ),
@@ -423,13 +415,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
+        content: CustomText(
+          text: message,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 16.0,
-          ),
+          fontWeight: FontWeight.w300,
+          fontSize: 16.0,
         ),
         backgroundColor: Colors.blueAccent,
         behavior: SnackBarBehavior.floating,

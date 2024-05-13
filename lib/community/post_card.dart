@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:agritool/community/community_model.dart';
 import 'package:agritool/community/video_play.dart';
 import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
@@ -16,34 +17,44 @@ class PostCard extends StatelessWidget {
     double height = size.height;
     double width = size.width;
     return Container(
-      padding: EdgeInsets.all(10),
-      color: Colors.amber,
+      padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 35,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(posts.name),
-                  Text(posts.date),
+                  CustomText(
+                    text: posts.name,
+                    fontWeight: FontWeight.bold,
+                    fontSize: size.largetext,
+                  ),
+                  CustomText(
+                    text: posts.date,
+                  ),
                 ],
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          ReadMoreText(posts.content),
-          SizedBox(
+          ReadMoreText(
+            posts.content,
+            style: const TextStyle(
+              fontSize: 17,
+            ),
+          ),
+          const SizedBox(
             height: 10,
           ),
           posts.imageUrl!.isNotEmpty && posts.imageUrl != null
@@ -77,8 +88,8 @@ class PostCard extends StatelessWidget {
                         );
                       }),
                 )
-              : SizedBox(),
-          SizedBox(
+              : const SizedBox(),
+          const SizedBox(
             height: 20,
           ),
           posts.videoUrl!.isNotEmpty && posts.videoUrl != null
@@ -105,8 +116,8 @@ class PostCard extends StatelessWidget {
                     },
                   ),
                 )
-              : SizedBox(),
-          Divider(
+              : const SizedBox(),
+          const Divider(
             thickness: 10,
           ),
         ],

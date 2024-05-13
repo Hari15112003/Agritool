@@ -2,13 +2,17 @@
 
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 //SnackBar
-void showSnackBar( {required BuildContext context,required String content}) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(content)));
+void showSnackBar({required BuildContext context, required String content}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: CustomText(text: content),
+    ),
+  );
 }
 
 //Image Picker
@@ -22,10 +26,8 @@ Future<File?> pickImage(BuildContext context) async {
       image = File(pickedImage.path);
     }
   } catch (e) {
-    showSnackBar(context:  context,content:  e.toString());
+    showSnackBar(context: context, content: e.toString());
   }
 
   return image;
 }
-
-

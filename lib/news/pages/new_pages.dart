@@ -1,3 +1,7 @@
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/news/components/customListTile.dart';
 import 'package:agritool/news/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +35,12 @@ class _NewsPageState extends State<NewsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
+                  CustomIconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop();
                       },
-                      icon: const Icon(Icons.arrow_back)),
-                  const Text(
-                    "Popular News",
-                    style: TextStyle(fontSize: 18),
-                  ),
+                      icon: const CustomIcon(icon: Icons.arrow_back)),
+                  const CustomText(text: "Popular News", fontSize: 18),
                   const Spacer()
                 ],
               ),
@@ -50,13 +51,9 @@ class _NewsPageState extends State<NewsPage> {
                 child: FutureBuilder(
                   future: client.getArticle(),
                   builder: (BuildContext context, snapshot) {
-                    //let's check if we got a response or not
-
                     if (snapshot.hasData) {
-                      //Now let's make a list of articles
                       List<Article> articles = snapshot.data!;
                       return ListView.builder(
-                        //Now let's create our custom List tile
                         itemCount: articles.length,
                         itemBuilder: (context, index) =>
                             customListTile(articles[index], context),

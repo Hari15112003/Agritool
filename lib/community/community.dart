@@ -1,12 +1,9 @@
 import 'dart:io';
 
 import 'package:agritool/community/community_model.dart';
-import 'package:agritool/community/make_post.dart';
 import 'package:agritool/community/post_card.dart';
-import 'package:agritool/custom/custom_textfield.dart';
 import 'package:agritool/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class CommunityScreen extends StatefulWidget {
@@ -20,6 +17,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     var ref = Provider.of<AuthProvider>(context);
+    
     return SingleChildScrollView(
         child: StreamBuilder(
             stream: ref.firebaseFirestore.collection('posts').snapshots(),
@@ -55,24 +53,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                   );
                 }
-                // CommunityModel a = CommunityModel(
-                //     userId: 'userId',
-                //     date: e.key,
-                //     profileImage: profileImage,
-                //     name: name,
-                //     content: e.value[],
-                //     heading: heading);
-
-                // CommunityModel as = CommunityModel(
-                //   imageUrl: ,
-                //   videoUrl: ,
-                //     userId: userId,
-                //     subheading: ,
-                //     date: date,
-                //     profileImage: 'profileImage',
-                //     name: name,
-                //     content: content,
-                //     heading: heading);
               }
 
               return Column(

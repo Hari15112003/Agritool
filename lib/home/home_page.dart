@@ -2,10 +2,13 @@
 
 import 'dart:io';
 
-import 'package:agritool/calculator/choose_crop.dart';
-import 'package:agritool/commodity/commodityPage.dart';
+import 'package:agritool/const/image_const.dart';
+import 'package:agritool/const/list_const.dart';
+import 'package:agritool/custom/custom_data.dart';
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:agritool/diseases/scanning_screen.dart';
-import 'package:agritool/lifesaver/lifesaver.dart';
 import 'package:agritool/youtube/example.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +18,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
+import '../custom/custom_icon_button.dart';
 import '../models/weather/services/weather_services.dart';
 import '../models/weather/weather_model.dart';
-import '../news/pages/new_pages.dart';
-import '../utils/widget.dart';
+import '../custom/custom_snackBar.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({super.key});
@@ -41,7 +44,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         _weather = weather;
       });
     } catch (e) {
-      showSnackBar(context:context ,content:  e.toString());
+      showSnackBar(context: context, content: e.toString());
     }
   }
 
@@ -53,7 +56,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   String getWeatherAnimation(String? mainCondition) {
-    if (mainCondition == null) return "assets/json/sunny.json";
+    if (mainCondition == null) return ImageConst.sunnyLottie;
 
     switch (mainCondition.toLowerCase()) {
       case 'clouds':
@@ -62,59 +65,24 @@ class _HomeWidgetState extends State<HomeWidget> {
       case 'haze':
       case 'dust':
       case 'fog':
-        return "assets/json/cloudy.json";
+        return ImageConst.cloudLottie;
 
       case 'drizzle':
-        return "assets/json/sunny_rainy.json";
+        return ImageConst.sunnyRainyLottie;
       case 'rain':
       case 'shower rain':
-        return "assets/json/rain.json";
+        return ImageConst.rainLottie;
       case 'thunderstorm':
-        return "assets/json/thunder.json";
+        return ImageConst.thunderLottie;
       case 'clear':
-        return "assets/json/sunny.json";
+        return ImageConst.sunnyLottie;
       default:
-        return "assets/json/sunny.json";
+        return ImageConst.sunnyLottie;
     }
   }
 
-  final List items = const [
-    // [ itemName, itemPrice, imagePath, color ]
-    [
-      "Popular News",
-      NewsPage(),
-      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fnews.png?alt=media&token=e3c456f5-c018-4c82-8599-e3f5177bdbe2",
-      Colors.green
-    ],
-    [
-      "Disease detection",
-      NewsPage(),
-      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fscanner.png?alt=media&token=46886fbd-8e0a-4b1c-8896-957d6c88d10d",
-      Colors.yellow,
-    ],
-    [
-      "Commodity Price",
-      CommodityPage(),
-      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fmarket_price.png?alt=media&token=d443555a-7474-4402-bafb-f6019c402ecb",
-      Colors.brown
-    ],
-    [
-      "Fertilizer Calculator",
-      ChooseFertilizerCalculator(),
-      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fcalculator.png?alt=media&token=62c5e466-48d2-4e77-8a8e-d3db004a5e07",
-      Colors.blue
-    ],
-    [
-      "Life saver",
-      LifeSaver(),
-      "https://firebasestorage.googleapis.com/v0/b/agritool-591f8.appspot.com/o/homepage%2Fcalculator.png?alt=media&token=62c5e466-48d2-4e77-8a8e-d3db004a5e07",
-      Colors.purple
-    ],
-    // ["Avocado", NewsPage(), "lib/example/images/avocado.png", Colors.green],
-    // ["Banana", NewsPage(), "lib/example/images/banana.png", Colors.yellow],
-    // ["Chicken", NewsPage(), "lib/example/images/chicken.png", Colors.brown],
-    // ["Water", NewsPage(), "lib/example/images/water.png", Colors.blue],
-  ];
+  final List items = ListContants.homeItems;
+
   late File image;
   List results = [];
   bool imageSelected = false;
@@ -140,8 +108,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     Tflite.close();
     String? res;
     res = await Tflite.loadModel(
-        model: "assets/model/model_unquant.tflite",
-        labels: "assets/model/labels.txt",
+        model: ImageConst.modelFile,
+        labels: ImageConst.modelFileLabel,
         numThreads: 1, // defaults to 1
         isAsset:
             true, // defaults to true, set to false to load resources outside assets
@@ -152,8 +120,9 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    CustomSizeData size = CustomSizeData.from(context: context);
+    double width = size.width;
+    double height = size.height;
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -175,32 +144,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 30, left: 40),
-                        child: Text(
-                          _weather?.cityName ?? "loading city..",
+                        child: CustomText(
+                          text: _weather?.cityName ?? "loading city..",
                           textAlign: TextAlign.left,
-                          style: const TextStyle(
-                              color: Colors.green,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.mediumtext,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, top: 10),
-                        child: Text(
-                          "${_weather?.temperature.round()}°C",
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold),
+                        child: CustomText(
+                          text: "${_weather?.temperature.round()}°C",
+                          color: Colors.black,
+                          fontSize: size.largetext,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, top: 10),
-                        child: Text(
-                          DateFormat.yMMMEd().format(DateTime.now()),
-                          style: const TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 89, 87, 87)),
+                        child: CustomText(
+                          text: DateFormat.yMMMEd().format(DateTime.now()),
+                          color: const Color.fromARGB(255, 89, 87, 87),
                         ),
                       )
                     ],
@@ -208,8 +173,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
                 ClipRect(
                   child: Lottie.asset(
-                      getWeatherAnimation(_weather?.mainCondition),
-                      height: height * 0.20),
+                    getWeatherAnimation(_weather?.mainCondition),
+                    height: height * 0.20,
+                  ),
                 ),
               ],
             ),
@@ -227,10 +193,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 return InkWell(
                     onTap: () {
                       if (index != 1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => items[index][1]));
+                        context.push(items[index][1]);
                       } else {
                         showDialog<String>(
                             context: context,
@@ -238,16 +201,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   // icon: Icon(Icons.abc),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15)),
-                                  title: Text('identifydisease'.tr),
-                                  content: Text('Choose the method'.tr),
+                                  title: CustomText(text: 'identifydisease'.tr),
+                                  content:
+                                      CustomText(text: 'Choose the method'.tr),
                                   actions: <Widget>[
                                     TextButton(
-                                      onPressed: () => pickImageFromCamera(),
+                                      onPressed: () =>
+                                          pickImage(from: 'camera'),
                                       child: Text('takeapic'.tr),
                                     ),
                                     TextButton(
-                                      onPressed: () => pickImageFromGallery(),
-                                      child: Text('choosefromgallery'.tr),
+                                      onPressed: () =>
+                                          pickImage(from: 'gallery'),
+                                      child: CustomText(
+                                        text: 'choosefromgallery'.tr,
+                                      ),
                                     ),
                                   ],
                                 ));
@@ -278,59 +246,34 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   ),
 
                                   // item name
-                                  Text(
-                                    items[index][0],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
+                                  CustomText(
+                                    text: items[index][0],
+                                    fontSize: 16,
                                   ),
                                 ]))));
               }),
         ),
-        IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()));
-            },
-            icon: const Icon(Icons.video_call)),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       Navigator.push(context,
-        //           MaterialPageRoute(builder: (context) => const Payment()));
-        //     },
-        //     child: const Text("check me"))
+        CustomIconButton(
+          onPressed: () {
+            context.push(const MyHomePage());
+          },
+          icon: const CustomIcon(
+            icon: Icons.video_call,
+          ),
+        ),
       ],
     );
   }
 
-  Future pickImageFromGallery() async {
+  Future pickImage({required String from}) async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
+      source: from == 'gallery' ? ImageSource.gallery : ImageSource.camera,
     );
     setState(() {
       image = File(pickedFile!.path);
     });
     await classifyDisease(image);
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return ScanningScreen(
-        image: image,
-        results: results,
-      );
-    }));
-  }
-
-  Future pickImageFromCamera() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.camera,
-    );
-    setState(() {
-      image = File(pickedFile!.path);
-    });
-    await classifyDisease(image);
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return ScanningScreen(image: image, results: results);
-    }));
+    context.push(ScanningScreen(image: image, results: results));
   }
 }

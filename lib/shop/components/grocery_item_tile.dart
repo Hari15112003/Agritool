@@ -1,3 +1,4 @@
+import 'package:agritool/custom/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -49,22 +50,18 @@ class GroceryItemTile extends StatelessWidget {
             ),
 
             // item name
-            Text(
-              itemName,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+            CustomText(
+              text: itemName,
+              fontSize: 16,
             ),
 
             MaterialButton(
               onPressed: onPressed,
               color: color,
-              child: Text(
-                '\$$itemPrice',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: CustomText(
+                text: '\$$itemPrice',
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             )
           ],

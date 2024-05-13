@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:agritool/const/api_const.dart';
 import 'package:agritool/models/weather/weather_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class WeatherService {
   // ignore: constant_identifier_names
-  static const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+  static const BASE_URL = ApiConstant.weatherApi;
   final String apikey;
   WeatherService(this.apikey);
   Future<Weather> getWeather(String cityName) async {

@@ -1,3 +1,4 @@
+import 'package:agritool/custom/custom_data.dart';
 import 'package:flutter/material.dart';
 
 class CustomIcon extends StatelessWidget {
@@ -8,16 +9,19 @@ class CustomIcon extends StatelessWidget {
   const CustomIcon({
     super.key,
     required this.icon,
-    required this.size,
-    required this.color,
+    this.size,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
+    CustomSizeData sizeData = CustomSizeData.from(context: context);
+    double aspect = sizeData.aspectRatio;
+
     return Icon(
       icon,
-      size: size ?? 40,
-      color: color??Colors.black,
+      size: size ?? aspect * 55,
+      color: color ?? Colors.black,
     );
   }
 }

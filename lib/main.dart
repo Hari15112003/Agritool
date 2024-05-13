@@ -1,4 +1,3 @@
-import 'package:agritool/community/community_model.dart';
 import 'package:agritool/firebase/firebase_options.dart';
 import 'package:agritool/language/lang.dart';
 import 'package:agritool/authentication/pages/welcome_page.dart';
@@ -15,6 +14,7 @@ import 'theme/provider/darktheme_provider.dart';
 import 'package:flutter/services.dart';
 
 Future main() async {
+  // Intializing the app Orientation
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -48,15 +48,19 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => CartModel(), // Return an instance of AuthProvider
+          create: (_) => CartModel(),
         ),
-        ChangeNotifierProvider(create: (_) => themeChangeProvider),
-        ChangeNotifierProvider(create: (_) => languageChangeProvider),
+        ChangeNotifierProvider(
+          create: (_) => themeChangeProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => languageChangeProvider,
+        ),
         ChangeNotifierProvider(
           create: ((context) => InternetProvider()),
         ),
         ChangeNotifierProvider(
-          create: ((context) => AuthProvider()), 
+          create: ((context) => AuthProvider()),
         ),
       ],
       child: Consumer<DarkThemeProvider>(
@@ -67,7 +71,10 @@ class _MyAppState extends State<MyApp> {
               'en',
             ),
             debugShowCheckedModeBanner: false,
-            theme: Styles.themeData(themeProvider.getDarkTheme, context),
+            theme: Styles.themeData(
+              themeProvider.getDarkTheme,
+              context,
+            ),
             home: const WelcomeScreen(),
           );
         },
@@ -75,30 +82,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// TODO: jkedn
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(home: Payment());
-//   }
-// }
-
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-
-//   // for initializing local storage
-//   final appStorage = AppStorage();
-//   await appStorage.initAppStorage();
-
-//   runApp(
-//     ProviderScope(
-//       overrides: [
-//         appStorageProvider.overrideWithValue(appStorage),
-//       ],
-//       child: const App(),
-//     ),
-//   );
-// }

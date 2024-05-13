@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print
 
 import 'package:agritool/crop/crop_details.dart';
+import 'package:agritool/custom/custom_navigation.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -158,10 +160,7 @@ class _CropWidgetState extends State<CropWidget> {
   Widget title(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
+      child: CustomText(text: text, fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
@@ -178,14 +177,10 @@ class _CropWidgetState extends State<CropWidget> {
           itemBuilder: (_, int index) {
             return InkWell(
               onTap: () {
-                print(items[index]);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CropDetails(
-                              item: items[index],
-                              itemImages: innerImages[index],
-                            )));
+                context.push(CropDetails(
+                  item: items[index],
+                  itemImages: innerImages[index],
+                ));
               },
               child: Column(
                 children: [
@@ -200,21 +195,10 @@ class _CropWidgetState extends State<CropWidget> {
                             itemImages[index],
                           ),
                         )
-                        //  Image.network(
-                        //   itemImages[index],
-                        //   height: 150,
-                        //   fit: BoxFit.cover,
-                        // )
-                        // child: CachedNetworkImage(
-                        //   imageUrl:
-                        //       'https://cdn.britannica.com/05/75905-050-C7AE0733/Mangoes-tree.jpg',
-                        //   placeholder: (context, url) =>
-                        //       CircularProgressIndicator(),
-                        //   errorWidget: (context, url, error) => Icon(Icons.error),
-                        // ),
+                      
                         ),
                   ),
-                  Text(items[index])
+                 CustomText(text:  items[index])
                 ],
               ),
             );

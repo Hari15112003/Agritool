@@ -1,5 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, prefer_interpolation_to_compose_strings
 
+import 'package:agritool/custom/custom_icon.dart';
+import 'package:agritool/custom/custom_icon_button.dart';
+import 'package:agritool/custom/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -123,14 +126,14 @@ class _DescriptionState extends State<Description> {
             const SizedBox(
               height: 20,
             ),
-            Text(widget.crop_item.toString().toUpperCase()),
+            CustomText(text: widget.crop_item.toString().toUpperCase()),
             Align(
               alignment: Alignment.centerRight,
-              child: IconButton(
+              child: CustomIconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.cancel)),
+                  icon: const CustomIcon(icon: Icons.cancel)),
             ),
             Expanded(
               flex: 2,
@@ -191,7 +194,7 @@ class _DescriptionState extends State<Description> {
         ),
         bottomSheet:
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Text(stepper.toString() + " of " + '5'),
+          CustomText(text: stepper.toString() + " of " + '5'),
           TextButton(
               onPressed: () {
                 String choosen = "";
@@ -216,7 +219,7 @@ class _DescriptionState extends State<Description> {
                   cropitem = choosen;
                 });
               },
-              child: const Text('Previous')),
+              child: const CustomText(text: 'Previous')),
           TextButton(
               onPressed: () {
                 String choosen = "";
@@ -241,7 +244,7 @@ class _DescriptionState extends State<Description> {
                   cropitem = choosen;
                 });
               },
-              child: const Text('Next'))
+              child: const CustomText(text: 'Next'))
         ]),
       ),
     );
@@ -250,22 +253,18 @@ class _DescriptionState extends State<Description> {
   Widget boldtext(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
+      child: CustomText(text: text, fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
   Widget smalltext(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(
-        bulletin + text,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-        ),
+      child: CustomText(
+        text: bulletin + text,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        overflow: TextOverflow.visible,
       ),
     );
   }
