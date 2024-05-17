@@ -50,10 +50,14 @@ class _LifeSaverState extends State<LifeSaver> {
                     return ExpansionTile(
                       childrenPadding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
-                      title: CustomText(text: seedDonationTitle[index]),
+                      title: CustomText(
+                        text: seedDonationTitle[index],
+                        overflow: TextOverflow.visible,
+                      ),
                       children: [
                         CustomText(
                           text: seedDonationDescription[index],
+                          overflow: TextOverflow.visible,
                         ),
                       ],
                     );
@@ -69,10 +73,14 @@ class _LifeSaverState extends State<LifeSaver> {
                     return ExpansionTile(
                       childrenPadding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
-                      title: CustomText(text: plantDonationTitle[index]),
+                      title: CustomText(
+                        text: plantDonationTitle[index],
+                        overflow: TextOverflow.visible,
+                      ),
                       children: [
                         CustomText(
                           text: plantDonationDescription[index],
+                          overflow: TextOverflow.visible,
                         ),
                       ],
                     );
